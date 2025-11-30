@@ -57,9 +57,16 @@
       background-color: #bdbdbd;
       cursor: not-allowed;
     }
-    #copyButton {
+    #copyButton, #checkButton {
       display: block;
       width: 100%;
+      margin-bottom: 8px;
+    }
+    #checkButton {
+      background-color: #4caf50;
+    }
+    #checkButton:hover {
+      background-color: #388e3c;
     }
   </style>
 </head>
@@ -68,6 +75,7 @@
   <div id="status" class="loading">正在提取内容...</div>
   <div id="result">暂无内容</div>
   <button id="copyButton" disabled>复制到剪贴板</button>
+  <button id="checkButton" disabled>检测可用性</button>
   <script src="popup.js"></script>
 </body>
 </html>

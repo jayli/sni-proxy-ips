@@ -1,9 +1,13 @@
+// 保存提取到的数据，供后续使用
+let extractedData = [];
+
 // 获取当前活跃标签页
 chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   const tab = tabs[0];
   const statusEl = document.getElementById('status');
   const resultEl = document.getElementById('result');
   const copyButton = document.getElementById('copyButton');
+  const checkButton = document.getElementById('checkButton');
 
   // 安全检查：只处理 http/https 页面
   if (!tab.url || !/^https?:/.test(tab.url)) {
@@ -65,12 +69,16 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         return;
       }
 
+      // 保存提取的数据
+      extractedData = result.data;
+
       // 显示成功结果
       const content = result.data.join('\n');
       resultEl.textContent = content;
       statusEl.textContent = `✅ 成功提取 ${result.count} 项内容`;
       statusEl.className = 'success';
       copyButton.disabled = false;
+      checkButton.disabled = false;
 
       // 为复制按钮添加事件监听器
       copyButton.onclick = () => {
@@ -86,6 +94,16 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             statusEl.textContent = `❌ 复制失败: ${err.message}`;
             statusEl.className = 'error';
           });
+      };
+
+      // 为检测可用性按钮添加事件监听器
+      checkButton.onclick = () => {
+        // 构造URL，将IP列表用逗号连接
+        const ips = extractedData.join(',');
+        const url = `http://yui.cool:7001/sni?ips=${ips}`;
+        
+        // 在新标签页中打开URL
+        chrome.tabs.create({ url: url });
       };
     }
   );
