@@ -13,7 +13,7 @@ chrome://extensions/
 
 打开”开发者模式“开关，源码方式导入插件：
 
-<img width="700" alt="image" src="https://github.com/user-attachments/assets/fe5f606f-1ecb-49ab-b448-52623d802263" />
+<img width="500" alt="image" src="https://github.com/user-attachments/assets/fe5f606f-1ecb-49ab-b448-52623d802263" />
 
 ### 2）搜索可用 IP
 
@@ -21,6 +21,6 @@ chrome://extensions/
 
 用插件提取 IP 即可，检测通过后直接复制在 ip.txt 里。
 
-<img width="500" alt="image" src="https://github.com/user-attachments/assets/d1c7ad98-cd64-48b8-b2a9-3641440ea945" />
+<img width="400" alt="image" src="https://github.com/user-attachments/assets/d1c7ad98-cd64-48b8-b2a9-3641440ea945" />
 
 
