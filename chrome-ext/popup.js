@@ -10,7 +10,6 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
   const checkButton = document.getElementById('checkButton');
   const netflixButton = document.getElementById('netflixButton');
 
-
   // 安全检查：只处理 http/https 页面
   if (!tab.url || !/^https?:/.test(tab.url)) {
     statusEl.textContent = '❌ 仅支持网页（http/https）';
@@ -18,31 +17,55 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
     return;
   }
 
-  // 动态注入脚本到页面，获取 div.result a.title 的内容
+  // IPv4地址验证正则表达式
+  const ipv4Regex = /^(\d{1,3}\.){3}\d{1,3}$/;
+
+  // 动态注入脚本到页面，获取 div.result a.title 和 div.hsxa-meta-data-item a.hsxa-jump-a 的内容
   chrome.scripting.executeScript(
     {
       target: { tabId: tab.id },
       func: () => {
         // 在页面上下文中执行
-        const links = document.querySelectorAll('div.result a.title');
         
-        if (links.length === 0) {
-          return { success: false, error: "未找到匹配的元素" };
-        }
-
-        // 提取所有链接的文本内容
-        const texts = Array.from(links)
+        // 提取原有的链接文本
+        const titleLinks = document.querySelectorAll('div.result a.title');
+        const titleTexts = Array.from(titleLinks)
           .map(link => link.textContent.trim())
           .filter(text => text.length > 0);
 
-        if (texts.length === 0) {
+        // 提取新的链接文本 (注意修正后的选择器)
+        const jumpLinks = document.querySelectorAll('div.hsxa-meta-data-item a.hsxa-jump-a');
+        const jumpTexts = Array.from(jumpLinks)
+          .map(link => link.textContent.trim())
+          .filter(text => text.length > 0);
+
+        // 合并两个数组并去重
+        const allTexts = [...titleTexts, ...jumpTexts];
+        const uniqueTexts = [...new Set(allTexts)]; // 使用Set去除重复项
+        
+        // 过滤出符合IPv4格式的地址
+        const ipv4Texts = uniqueTexts.filter(text => {
+          // 基本格式检查
+          if (!/^(\d{1,3}\.){3}\d{1,3}$/.test(text)) {
+            return false;
+          }
+          
+          // 详细检查每个数字部分是否在0-255范围内
+          const parts = text.split('.');
+          return parts.every(part => {
+            const num = parseInt(part, 10);
+            return num >= 0 && num <= 255 && part === num.toString();
+          });
+        });
+
+        if (ipv4Texts.length === 0) {
           return { success: false, error: "未提取到有效文本" };
         }
 
         return { 
           success: true, 
-          data: texts,
-          count: texts.length
+          data: ipv4Texts,
+          count: ipv4Texts.length
         };
       }
     },
