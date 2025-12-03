@@ -1,7 +1,7 @@
-## 获取 SNI 反代服务器
+## 手工获取 SNI 反代服务器
 
-1. ip.txt 是给 vps 定时探测任务喂的可用 ip 列表
-2. chrome-ext 是浏览器一键提取 ip 插件
+1. ip.txt 是给 vps 定时探测任务喂的可用 ip 列表的备份，不是必须
+2. chrome-ext：浏览器一键提取 ip 插件
 
 ### 1）chrome 插件安装
 
