@@ -124,6 +124,13 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
 
       // 为检测可用性按钮添加事件监听器
       checkButton.onclick = () => {
+        // 检查 textarea 是否为空
+        if (resultEl.value.trim() === '') {
+          statusEl.textContent = '⚠️ 没有可测试的IP地址';
+          statusEl.className = 'error';
+          return;
+        }
+        
         // 从 textarea 获取内容并分割成数组
         const ips = resultEl.value.split(/\r?\n/).filter(ip => ip.trim() !== '').join(',');
         
@@ -155,6 +162,13 @@ chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       };
 
       netflixButton.onclick = () => {
+        // 检查 textarea 是否为空
+        if (resultEl.value.trim() === '') {
+          statusEl.textContent = '⚠️ 没有可测试的IP地址';
+          statusEl.className = 'error';
+          return;
+        }
+        
         // 从 textarea 获取内容并分割成数组
         const ips = resultEl.value.split(/\r?\n/).filter(ip => ip.trim() !== '').join(',');
         
