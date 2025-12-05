@@ -17,8 +17,7 @@ chrome://extensions/
 
 ### 2）搜索可用 IP
 
-- [https://www.shodan.io/](https://www.shodan.io/)里搜索 `port:80 http.status:503 "Service Temporarily Unavailable" "Content-Type: text/html" "Connection: close" -"Content-Length:" country:"US" -hostname  -"Server"`
-- [https://fofa.info/](https://fofa.info/) 里搜 `body="Backend not available" && country="US" && asn!="13335" && asn!="203637" && asn!="31898" && asn!="61112" && asn!="148680" && asn!="153914" && header!="Content-Length" && header="Connection: close" && port="80"`
+[查询条件](https://github.com/jayli/passwall-any/tree/main/netflix)
 
 用插件提取 IP 即可，检测通过后直接复制在 ip.txt 里。
 
